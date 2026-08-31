@@ -120,7 +120,11 @@ tell application "Finder"
         set sourceIndex to item i of itemIndexes
         set positionIndex to item i of positionIndexes
         try
-            set desktop position of item sourceIndex of desktopItems to item positionIndex of desktopPositions
+            set currentPosition to item sourceIndex of desktopPositions
+            set targetPosition to item positionIndex of desktopPositions
+            if currentPosition is not targetPosition then
+                set desktop position of item sourceIndex of desktopItems to targetPosition
+            end if
         end try
     end repeat
 end tell
@@ -128,9 +132,10 @@ end tell
 return itemCount
 
 on isImageFile(itemName)
-    set loweredName to do shell script "echo " & quoted form of itemName & " | tr '[:upper:]' '[:lower:]'"
-    repeat with extension in {".jpg", ".jpeg", ".png", ".gif", ".heic", ".webp", ".tif", ".tiff", ".bmp", ".svg"}
-        if loweredName ends with (contents of extension) then return true
-    end repeat
+    ignoring case
+        repeat with extension in {".jpg", ".jpeg", ".png", ".gif", ".heic", ".webp", ".tif", ".tiff", ".bmp", ".svg"}
+            if itemName ends with (contents of extension) then return true
+        end repeat
+    end ignoring
     return false
 end isImageFile

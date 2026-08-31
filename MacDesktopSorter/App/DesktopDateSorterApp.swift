@@ -20,7 +20,11 @@ struct DesktopDateSorterApp: App {
                 Button {
                     sorter.applyCriterion(criterion)
                 } label: {
-                    Label(criterion.title, systemImage: sorter.criterion == criterion ? "checkmark" : "")
+                    if sorter.criterion == criterion {
+                        Label(criterion.title, systemImage: "checkmark")
+                    } else {
+                        Text(criterion.title)
+                    }
                 }
                 .disabled(sorter.isWorking || sorter.criterion == criterion)
             }
@@ -30,7 +34,11 @@ struct DesktopDateSorterApp: App {
                 Button {
                     sorter.applyGrouping(grouping)
                 } label: {
-                    Label(grouping.title, systemImage: sorter.grouping == grouping ? "checkmark" : "")
+                    if sorter.grouping == grouping {
+                        Label(grouping.title, systemImage: "checkmark")
+                    } else {
+                        Text(grouping.title)
+                    }
                 }
                 .disabled(sorter.isWorking || sorter.grouping == grouping)
             }
