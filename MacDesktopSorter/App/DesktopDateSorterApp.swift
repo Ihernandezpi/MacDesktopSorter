@@ -72,8 +72,13 @@ struct DesktopDateSorterApp: App {
                 NSApplication.shared.terminate(nil)
             }
         } label: {
-            Image(systemName: sorter.isWorking ? "arrow.triangle.2.circlepath" : "arrow.up.arrow.down")
-                .accessibilityLabel(sorter.isWorking ? "Ordenando el Escritorio" : "Ordenar Escritorio")
+            if sorter.isWorking {
+                Image(systemName: "arrow.triangle.2.circlepath")
+            } else {
+                Image("MenuBarIcon")
+                    .renderingMode(.template)
+            }
+            
         }
         .menuBarExtraStyle(.menu)
     }
