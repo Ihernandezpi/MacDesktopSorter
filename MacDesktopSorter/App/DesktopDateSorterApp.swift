@@ -8,7 +8,7 @@ struct DesktopDateSorterApp: App {
     @State private var launchAtLoginEnabled = SMAppService.mainApp.status == .enabled
 
     var body: some Scene {
-        MenuBarExtra("Ordenar Escritorio", systemImage: "arrow.up.arrow.down") {
+        MenuBarExtra {
             Button {
                 sorter.toggleOrder()
             } label: {
@@ -72,6 +72,9 @@ struct DesktopDateSorterApp: App {
             Button("Salir") {
                 NSApplication.shared.terminate(nil)
             }
+        } label: {
+            Image(systemName: sorter.isWorking ? "arrow.triangle.2.circlepath" : "arrow.up.arrow.down")
+                .accessibilityLabel(sorter.isWorking ? "Ordenando el Escritorio" : "Ordenar Escritorio")
         }
         .menuBarExtraStyle(.menu)
     }
