@@ -75,7 +75,11 @@ struct DesktopDateSorterApp: App {
             if sorter.isWorking {
                 Image(systemName: "arrow.triangle.2.circlepath")
             } else {
-                Image(systemName: "arrow.up.arrow.down.square")
+                Image("MenuBarIcon")
+                    .renderingMode(.template)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 18, height: 18)
             }
             
         }
