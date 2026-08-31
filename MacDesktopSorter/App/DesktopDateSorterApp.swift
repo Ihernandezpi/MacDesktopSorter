@@ -9,24 +9,26 @@ struct DesktopDateSorterApp: App {
 
     var body: some Scene {
         MenuBarExtra {
-            Button {
-                sorter.toggleOrder()
-            } label: {
-                Label(sorter.criterion.title, systemImage: sorter.directionSymbol)
-            }
-            .disabled(sorter.isWorking)
-
             ForEach(SortCriterion.allCases) { criterion in
                 Button {
-                    sorter.applyCriterion(criterion)
-                } label: {
                     if sorter.criterion == criterion {
-                        Label(criterion.title, systemImage: "checkmark")
+                        sorter.toggleOrder()
                     } else {
+                        sorter.applyCriterion(criterion)
+                    }
+                } label: {
+                    HStack {
+                        if sorter.criterion == criterion {
+                            Image(systemName: "checkmark")
+                        }
                         Text(criterion.title)
+                        Spacer()
+                        if sorter.criterion == criterion {
+                            Image(systemName: sorter.directionSymbol)
+                        }
                     }
                 }
-                .disabled(sorter.isWorking || sorter.criterion == criterion)
+                .disabled(sorter.isWorking)
             }
 
             Divider()
