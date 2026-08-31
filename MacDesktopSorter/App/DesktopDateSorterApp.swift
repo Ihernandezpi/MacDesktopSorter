@@ -9,16 +9,25 @@ struct DesktopDateSorterApp: App {
 
     var body: some Scene {
         MenuBarExtra("Ordenar Escritorio", systemImage: "arrow.up.arrow.down") {
-            Menu("Ordenar por: \(sorter.criterion.title)") {
+            Button {
+                sorter.toggleOrder()
+            } label: {
+                Label(sorter.criterion.title, systemImage: sorter.directionSymbol)
+            }
+            .disabled(sorter.isWorking)
+
+            Menu("Cambiar criterio") {
                 ForEach(SortCriterion.allCases) { criterion in
                     Button(criterion.title) { sorter.setCriterion(criterion) }
                 }
             }
 
-            Button("Más recientes primero") { sorter.sort(descending: true) }.disabled(sorter.isWorking)
-            Button("Más antiguos primero") { sorter.sort(descending: false) }.disabled(sorter.isWorking)
-            Button("Alternar orden") { sorter.toggleOrder() }.disabled(sorter.isWorking)
-            Toggle("Carpetas primero", isOn: $sorter.foldersFirst).disabled(sorter.isWorking)
+            Menu(sorter.grouping.title) {
+                ForEach(DesktopGrouping.allCases) { grouping in
+                    Button(grouping.title) { sorter.grouping = grouping }
+                }
+            }
+            .disabled(sorter.isWorking)
 
             Divider()
 

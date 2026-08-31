@@ -4,7 +4,7 @@
 
 set descendingOrder to __DESCENDING__
 set sortCriterion to "__CRITERION__"
-set foldersFirst to __FOLDERS_FIRST__
+set grouping to "__GROUPING__"
 
 tell application "Finder"
     set desktopItems to every item of desktop
@@ -48,9 +48,11 @@ repeat with i from 2 to itemCount
         set compareFolder to item compareIndex of folderValues
         set shouldMove to false
 
-        if foldersFirst and currentFolder and not compareFolder then
+        if grouping is "foldersFirst" and currentFolder and not compareFolder then
             set shouldMove to true
-        else if (not foldersFirst) or (currentFolder is compareFolder) then
+        else if grouping is "filesFirst" and (not currentFolder) and compareFolder then
+            set shouldMove to true
+        else if grouping is "none" or (currentFolder is compareFolder) then
             if descendingOrder then
                 if compareValue < currentValue then set shouldMove to true
             else

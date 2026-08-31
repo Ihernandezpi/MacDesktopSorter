@@ -1,7 +1,7 @@
 import Foundation
 
 enum FinderScriptRunner {
-    static func sortDesktop(criterion: SortCriterion, descending: Bool, foldersFirst: Bool) -> Result<Int, SortError> {
+    static func sortDesktop(criterion: SortCriterion, descending: Bool, grouping: DesktopGrouping) -> Result<Int, SortError> {
         guard let url = Bundle.main.url(forResource: "SortDesktop", withExtension: "applescript") else {
             return .failure(.missingScript)
         }
@@ -11,7 +11,7 @@ enum FinderScriptRunner {
             let source = template
                 .replacingOccurrences(of: "__DESCENDING__", with: descending ? "true" : "false")
                 .replacingOccurrences(of: "__CRITERION__", with: criterion.rawValue)
-                .replacingOccurrences(of: "__FOLDERS_FIRST__", with: foldersFirst ? "true" : "false")
+                .replacingOccurrences(of: "__GROUPING__", with: grouping.rawValue)
             guard let script = NSAppleScript(source: source) else {
                 return .failure(.invalidScript)
             }
