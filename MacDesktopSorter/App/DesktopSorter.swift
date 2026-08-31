@@ -12,6 +12,7 @@ enum DesktopProfile { case recent, work, archive; var value: (SortCriterion, Boo
     @Published var grouping: DesktopGrouping { didSet { UserDefaults.standard.set(grouping.rawValue, forKey: "grouping") } }
     init() { criterion = SortCriterion(rawValue: UserDefaults.standard.string(forKey: "criterion") ?? "") ?? .creationDate; grouping = DesktopGrouping(rawValue: UserDefaults.standard.string(forKey: "grouping") ?? "") ?? .none }
     var directionSymbol: String { UserDefaults.standard.bool(forKey: "descending") ? "arrow.down" : "arrow.up" }
+    var directionGlyph: String { UserDefaults.standard.bool(forKey: "descending") ? "↓" : "↑" }
     func setCriterion(_ value: SortCriterion) { criterion = value }
     func applyCriterion(_ value: SortCriterion) { criterion = value; sort(descending: UserDefaults.standard.bool(forKey: "descending")) }
     func applyGrouping(_ value: DesktopGrouping) { grouping = value; sort(descending: UserDefaults.standard.bool(forKey: "descending")) }

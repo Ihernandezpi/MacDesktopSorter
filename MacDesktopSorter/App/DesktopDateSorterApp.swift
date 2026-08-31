@@ -21,11 +21,8 @@ struct DesktopDateSorterApp: App {
                         if sorter.criterion == criterion {
                             Image(systemName: "checkmark")
                         }
-                        Text(criterion.title)
+                        Text(sorter.criterion == criterion ? "\(criterion.title)  \(sorter.directionGlyph)" : criterion.title)
                         Spacer()
-                        if sorter.criterion == criterion {
-                            Image(systemName: sorter.directionSymbol)
-                        }
                     }
                 }
                 .disabled(sorter.isWorking)
