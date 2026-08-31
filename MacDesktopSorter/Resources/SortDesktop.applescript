@@ -25,8 +25,11 @@ tell application "Finder"
     end if
     set desktopPositions to desktop position of every item of desktop
     set folderValues to {}
+    set imageValues to {}
     repeat with desktopItem in desktopItems
         set end of folderValues to ((class of desktopItem) is folder)
+        set itemName to name of desktopItem
+        set end of imageValues to my isImageFile(itemName)
     end repeat
 end tell
 
@@ -40,17 +43,21 @@ repeat with i from 2 to itemCount
     set currentIndex to item i of itemIndexes
     set currentValue to item currentIndex of sortValues
     set currentFolder to item currentIndex of folderValues
+    set currentImage to item currentIndex of imageValues
     set j to i - 1
 
     repeat while j ≥ 1
         set compareIndex to item j of itemIndexes
         set compareValue to item compareIndex of sortValues
         set compareFolder to item compareIndex of folderValues
+        set compareImage to item compareIndex of imageValues
         set shouldMove to false
 
         if grouping is "foldersFirst" and currentFolder and not compareFolder then
             set shouldMove to true
         else if grouping is "filesFirst" and (not currentFolder) and compareFolder then
+            set shouldMove to true
+        else if grouping is "imagesFirst" and currentImage and not compareImage then
             set shouldMove to true
         else if grouping is "none" or (currentFolder is compareFolder) then
             if descendingOrder then
@@ -119,3 +126,11 @@ tell application "Finder"
 end tell
 
 return itemCount
+
+on isImageFile(itemName)
+    set loweredName to do shell script "echo " & quoted form of itemName & " | tr '[:upper:]' '[:lower:]'"
+    repeat with extension in {".jpg", ".jpeg", ".png", ".gif", ".heic", ".webp", ".tif", ".tiff", ".bmp", ".svg"}
+        if loweredName ends with (contents of extension) then return true
+    end repeat
+    return false
+end isImageFile

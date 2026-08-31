@@ -16,18 +16,24 @@ struct DesktopDateSorterApp: App {
             }
             .disabled(sorter.isWorking)
 
-            Menu("Cambiar criterio") {
-                ForEach(SortCriterion.allCases) { criterion in
-                    Button(criterion.title) { sorter.setCriterion(criterion) }
+            ForEach(SortCriterion.allCases) { criterion in
+                Button {
+                    sorter.applyCriterion(criterion)
+                } label: {
+                    Label(criterion.title, systemImage: sorter.criterion == criterion ? "checkmark" : "")
                 }
+                .disabled(sorter.isWorking || sorter.criterion == criterion)
             }
 
-            Menu(sorter.grouping.title) {
-                ForEach(DesktopGrouping.allCases) { grouping in
-                    Button(grouping.title) { sorter.grouping = grouping }
+            Divider()
+            ForEach(DesktopGrouping.allCases) { grouping in
+                Button {
+                    sorter.applyGrouping(grouping)
+                } label: {
+                    Label(grouping.title, systemImage: sorter.grouping == grouping ? "checkmark" : "")
                 }
+                .disabled(sorter.isWorking || sorter.grouping == grouping)
             }
-            .disabled(sorter.isWorking)
 
             Divider()
 
