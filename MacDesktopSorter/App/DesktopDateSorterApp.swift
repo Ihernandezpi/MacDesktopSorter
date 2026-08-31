@@ -79,7 +79,7 @@ struct DesktopDateSorterApp: App {
                     .renderingMode(.template)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 14, height: 14)
+                    .frame(width: 12, height: 12)
             }
             
         }
